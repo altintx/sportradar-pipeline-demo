@@ -17,17 +17,12 @@ const PORT = 8080;
 // maybe some general reporting later
 // maybe we know how many workers are running?
 
-schedule().forEach(game => {
-  // if game.game.gameDate >= now
-    // schedule work
-})
-
 app.get('/', (req, res) => {
   res.send("ok")
 });
 
-app.get('/check-schedule-for-games', (req, res) => {
-  schedule().forEach(game => {
+app.get('/schedule-todays-games', async (req, res) => {
+  (await schedule()).forEach(game => {
     // if game.game.gameDate >= now
       // schedule work
   })
