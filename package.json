@@ -4,6 +4,8 @@
   "description": "build a Data Pipeline using NHL Data",
   "main": "index.ts",
   "scripts": {
+    "start": "ts-node src/server.ts",
+    "game-worker": "ts-node src/game-worker.ts",
     "test": "jest"
   },
   "repository": {
@@ -17,6 +19,9 @@
   },
   "homepage": "https://github.com/altintx/sportradar-pipeline-demo#readme",
   "dependencies": {
+    "@types/express": "^4.17.14",
+    "@types/node": "^18.11.9",
+    "express": "^4.18.2",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
     "typescript": "^4.9.3"

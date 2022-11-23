@@ -1,0 +1,41 @@
+version: "3.9"
+volumes:
+  database:
+services: 
+  app: &app 
+    deploy:
+      replicas: 0
+    image: node:18
+    ports:
+      - "8080:8080"
+    volumes:
+      - type: bind 
+        source: ./
+        target: /app
+    working_dir: /app
+  monitor:
+    <<: *app
+    deploy: 
+      replicas: 1
+    command: yarn start
+    depends_on:
+      - redis
+      - postgres
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://postgres:nhl@postgres/postgres
+  jest:
+    <<: *app
+    command: yarn jest --passWithNoTests
+  postgres: 
+    image: postgres:14-alpine
+    volumes:
+      - database:/var/lib/postgresql
+    environment: 
+      - POSTGRES_PASSWORD=nhl
+  redis: 
+    image: redis
+  
