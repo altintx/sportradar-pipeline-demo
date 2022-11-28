@@ -1,6 +1,14 @@
 {
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    "compilerOptions": {
+      "module": "nodenext",
+      "esModuleInterop": true
+    }
+  },
   "compilerOptions": {
-      "target": "es5",
+      "target": "es6",
+      "esModuleInterop": true,
       "module": "commonjs",
       "sourceMap": true,
       "outDir": "dist/",

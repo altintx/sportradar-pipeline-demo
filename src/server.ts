@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { schedule } from './services/nhl-api';
+import { schedule } from './services/nhl-api.js';
 
 const app = express();
 const PORT = 8080;
@@ -23,8 +23,16 @@ app.get('/', (req, res) => {
 
 app.get('/schedule-todays-games', async (req, res) => {
   (await schedule()).forEach(game => {
-    // if game.game.gameDate >= now
-      // schedule work
+    const w = new Worker('./game-worker.js');
+    w.postMessage(game.gamePk);
+    w.onmessage = (e) => {
+      if (e.data === 0) {
+        w.onmessage = null;
+        w.terminate();
+      } else {
+        console.log(`Error ${e.data} while processing game ${game.gamePk}`);
+      }
+    }
   })
   
 })
