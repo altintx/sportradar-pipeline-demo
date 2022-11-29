@@ -41,6 +41,11 @@ export async function getLiveGameStats(gameId: string, lastPollCode: string): Pr
   return data.gameData;
 }
 
+export function getGameBoxScores(gameId: string): Promise<any> {
+  const url = `https://statsapi.web.nhl.com/api/v1/game/${gameId}/boxscore`;
+  return ky.get(url).json();
+}
+
 function enrichDates(record): Schedule {
   return Object.assign({}, record, {
     gameDate: new Date(record.gameDate)
