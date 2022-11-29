@@ -1,5 +1,6 @@
 import Model from './model.js';
 export class GameStat extends Model {
+  // these are in the live event payload
   // playerId: string;
   // playerName: string;
   // teamId: string;
@@ -7,13 +8,15 @@ export class GameStat extends Model {
   // playerAge: string;
   // playerNumber: string;
   // playerPosition: string;
+
+  // these are not in existing payload
   // assists: number = 0;
   // goals: number = 0;
   // hits: number = 0;
   // points: number = 0;
   // penaltyMinutes: number = 0;
   // opponentTeam: string;
-
+  
   static async capture(gameId: string, status: any) {
     console.log("write stats data to DB")
   }
