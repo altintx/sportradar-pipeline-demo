@@ -5,8 +5,8 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "ts-node src/server.ts",
-    "game-worker": "ts-node src/game-worker.ts",
+    "start": "ts-node-esm src/server.ts",
+    "game-worker": "ts-node-esm src/game-worker.ts",
     "test": "jest"
   },
   "repository": {

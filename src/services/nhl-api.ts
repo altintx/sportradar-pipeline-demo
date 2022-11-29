@@ -37,7 +37,8 @@ export async function getLiveGameStats(gameId: string, lastPollCode: string): Pr
   // const { default: ky } = await import('ky');
   const url = `https://statsapi.web.nhl.com/api/v1/game/${gameId}/feed/live/diffPatch${lastPollCode? `?startTimecode=${lastPollCode}`: ''}`;
   const data = await ky.get(url).json() as any;
-  return data;
+  data.gameData.status.statusCode = parseInt(data.gameData.status.statusCode);
+  return data.gameData;
 }
 
 function enrichDates(record): Schedule {

@@ -7,6 +7,8 @@ import { GameStat } from "./models/game-stat.js";
 import { gameByPk, getLiveGameStats } from "./services/nhl-api.js";
 import * as url from 'node:url';
 
+const STATUS_COMPLETE = 7;
+
 export async function worker(teamId, gameId) {
   const game = await gameByPk(teamId, gameId);
   console.log(game);
@@ -18,16 +20,22 @@ export async function worker(teamId, gameId) {
     await new Promise(resolve => setTimeout(resolve, scheduledTime - now));
     now = scheduledTime
   }
+  lastPoll = scheduledTime;
   while(now >= scheduledTime) {
-    const status = await getLiveGameStats(gameId, lastPoll);
-    lastPoll = status.time; // todo: expecting there to be a timestamp in the response
+    console.log("looping");
+    const game = await getLiveGameStats(gameId, lastPoll);
+    lastPoll = game.time; // todo: expecting there to be a timestamp in the response
 
-    GameStat.capture(gameId, status);
+    console.log(game);
 
-    if(status.gameStatus === 'final') {
+    GameStat.capture(gameId, game);
+
+    if(game.status.statusCode === STATUS_COMPLETE) {
+      console.log("Game is over");
       return 0;
     } else {
-      await new Promise(resolve => setTimeout(resolve, 100000));
+      console.log("Game is not over. Waiting 10 seconds");
+      await new Promise(resolve => setTimeout(resolve, 10000));
       // run again
     }
   }
@@ -37,7 +45,7 @@ if (import.meta.url.startsWith('file:')) { // (A)
   const modulePath = url.fileURLToPath(import.meta.url);
   if (process.argv[1] === modulePath) { // (B)
     if (process.argv.length < 4) {
-      console.log('Usage: node game-worker.js <team> <gameId>');
+      console.log('Usage: ts-node-esm game-worker.ts <team> <gameId>');
       process.exit(1);
     }
     const team = process.argv[2];

@@ -15,8 +15,7 @@ export class GameStat extends Model {
   // opponentTeam: string;
 
   static async capture(gameId: string, status: any) {
-    console.log(gameId);
-    console.log(status);
+    console.log("write stats data to DB")
   }
 };
 
