@@ -24,6 +24,6 @@ docker compose up
 
 ### Using
 
-http://localhost:8080  Status of the main monitor process
-
-`docker compose run --rm monitor  yarn ts-node-esm src/game-worker.ts 30 2017020659` Watch a particular game- that's `game-worker.ts <teamid> <gameid>`
+`curl http://localhost:8080` should return OK
+`curl http://localhost:8080/schedule-todays-games` Should load games scheduled for today and schedule them to run
+`docker compose run --rm monitor  yarn ts-node-esm src/game-worker.ts 30 2017020659` Manually watch a particular game- that's `game-worker.ts <teamid> <gameid>`
