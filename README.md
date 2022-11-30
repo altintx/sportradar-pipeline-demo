@@ -11,7 +11,7 @@ You'll need to scaffold a database.
 
 `docker compose run --rm migrate`
 
-This will use the same DB as the 
+This will use the same DB as the main app will use later.
 
 ### Running
 
