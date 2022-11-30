@@ -30,6 +30,11 @@ services:
   jest:
     <<: *app
     command: yarn jest --passWithNoTests
+  migrate:
+    <<: *app
+    command: yarn migrate up
+    environment:
+      - DATABASE_URL=postgresql://postgres:nhl@postgres/postgres
   postgres: 
     image: postgres:14-alpine
     volumes:
