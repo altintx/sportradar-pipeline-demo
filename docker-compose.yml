@@ -27,9 +27,15 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
       - DATABASE_URL=postgresql://postgres:nhl@postgres/postgres
+  setup:
+    <<: *app
+    command: yarn
   jest:
     <<: *app
     command: yarn jest --passWithNoTests
+    depends_on:
+      - redis
+      - postgres
   migrate:
     <<: *app
     command: yarn migrate up

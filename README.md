@@ -3,6 +3,10 @@
 ### Configuration/Installation
 Copy, and if neccessary tweak `example-docker-compose.override.yml` to `docker-compose.override.yml`.  Docker Compose will overlay that file on top of the typical `docker-compose.yml` file. As is, it will include a redis UI, postgres ports, and debugger ports for Node.
 
+You'll need to install Yarn dependencies.
+
+`docker compose run --rm setup`
+
 You'll need to scaffold a database.
 
 `docker compose run --rm migrate`
