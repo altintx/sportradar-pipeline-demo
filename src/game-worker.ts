@@ -11,7 +11,6 @@ const STATUS_COMPLETE = 7;
 
 export async function worker(teamId, gameId) {
   const game = await gameByPk(teamId, gameId);
-  console.log(game);
   const scheduledTime = game.gameDate.getTime();
   let now = new Date().getTime();
   let lastPoll: string = null;
@@ -22,26 +21,24 @@ export async function worker(teamId, gameId) {
   }
   lastPoll = scheduledTime;
   while(now >= scheduledTime) {
-    console.log("looping");
     const game = await getLiveGameStats(gameId, lastPoll);
     const box = await getGameBoxScores(gameId);
     lastPoll = game.time; // todo: expecting there to be a timestamp in the response
 
     const playerGameStats = Object.values(box.teams.home.players)
+      .concat(Object.values(box.teams.away.players))
       .map((player: any) => ({ 
         player: player.person, 
         stats: player.stats.skaterStats,
         game: game
       }));
-    // console.log(playerGameStats[0]);
-
-    GameStat.capture(gameId, playerGameStats);
+    await GameStat.capture(gameId, playerGameStats);
 
     if(game.status.statusCode === STATUS_COMPLETE) {
-      console.log("Game is over");
+      console.log("Game is over, exiting");
       return 0;
     } else {
-      console.log("Game is not over. Waiting 10 seconds");
+      console.log("Game is not over. Waiting 10 seconds to loop.");
       await new Promise(resolve => setTimeout(resolve, 10000));
       // run again
     }

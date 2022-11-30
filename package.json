@@ -7,7 +7,8 @@
   "scripts": {
     "start": "ts-node-esm src/server.ts",
     "game-worker": "ts-node-esm src/game-worker.ts",
-    "test": "jest"
+    "test": "jest",
+    "migrate": "node-pg-migrate"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "knex": "^2.3.0",
     "ky": "^0.32.2",
     "ky-universal": "^0.11.0",
+    "node-pg-migrate": "^6.2.2",
     "objection": "^3.0.1",
     "pg": "^8.8.0",
     "ts-node": "^10.9.1",
