@@ -27,3 +27,11 @@ docker compose up
 `curl http://localhost:8080` should return OK
 `curl http://localhost:8080/schedule-todays-games` Should load games scheduled for today and schedule them to run
 `docker compose run --rm monitor  yarn ts-node-esm src/game-worker.ts 30 2017020659` Manually watch a particular game- that's `game-worker.ts <teamid> <gameid>`
+
+
+### Validation
+
+`docker compose exec --it postgres psql -U postgres`
+`select * from statistics`
+
+Data should insert when a particular player/game is first encountered and updated on the second-Nth pass.
